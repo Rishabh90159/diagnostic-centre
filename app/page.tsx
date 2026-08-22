@@ -8,11 +8,9 @@ import {
   CheckCircle2,
   ChevronDown,
   ClipboardList,
-  Clock3,
   HeartPulse,
   HomeIcon,
   Mail,
-  MapPin,
   Menu,
   MessageCircle,
   Microscope,
@@ -42,35 +40,35 @@ const navItems = [
 const tests = [
   {
     name: "Complete Blood Count (CBC)",
-    description: "A common screening test used to review key blood components.",
+    description: "A routine blood test that measures different components of your blood.",
   },
   {
     name: "Thyroid Profile",
-    description: "Supports thyroid health enquiries and routine monitoring needs.",
+    description: "A group of blood tests commonly used to check thyroid hormone levels.",
   },
   {
     name: "Liver Function Test",
-    description: "A panel commonly used to understand liver-related markers.",
+    description: "A blood test panel that checks common liver health indicators.",
   },
   {
     name: "Kidney Function Test",
-    description: "Checks commonly requested markers related to kidney function.",
+    description: "A set of tests used to review common kidney function indicators.",
   },
   {
     name: "Lipid Profile",
-    description: "Reviews cholesterol and lipid markers for preventive screening.",
+    description: "A blood test that checks cholesterol and other lipid levels.",
   },
   {
     name: "Blood Sugar Test",
-    description: "Used for routine blood glucose enquiries and monitoring.",
+    description: "A simple test used to measure blood glucose levels.",
   },
   {
     name: "Vitamin D Test",
-    description: "Helps enquire about vitamin D level assessment options.",
+    description: "A blood test used to check vitamin D levels.",
   },
   {
     name: "Vitamin B12 Test",
-    description: "Supports enquiries for common vitamin B12 level testing.",
+    description: "A blood test used to check vitamin B12 levels.",
   },
 ];
 
@@ -98,46 +96,46 @@ const packages = [
 ];
 
 const convenience = [
-  ["Easy Test Enquiries", "Quickly ask about individual tests and availability.", TestTube2],
-  ["Home Sample Collection", "Request sample collection from your preferred location.", HomeIcon],
-  ["Multiple Diagnostic Services", "Explore common tests and health checkup options.", Microscope],
-  ["Convenient Contact Options", "Use enquiry, callback, call, or WhatsApp touchpoints.", Phone],
-  ["Mobile-Friendly Access", "Patients can browse and enquire comfortably on any device.", ShieldCheck],
-  ["Simple Appointment Requests", "Share service needs, date preference, and details in one form.", CalendarCheck],
+  ["Easy Test Enquiries", "Ask about individual tests and availability in a simple way.", TestTube2],
+  ["Home Sample Collection", "Request sample collection from the comfort of your home.", HomeIcon],
+  ["Multiple Diagnostic Services", "Explore common tests and routine health checkup options.", Microscope],
+  ["Convenient Contact Options", "Share your details and let the centre get in touch.", Phone],
+  ["Mobile-Friendly Access", "Browse services easily from your phone, tablet, or computer.", ShieldCheck],
+  ["Simple Appointment Requests", "Send your preferred date and the service you are looking for.", CalendarCheck],
 ];
 
 const infoStrip = [
   "Easy Booking",
-  "Home Collection Request",
-  "Direct Call Support",
-  "Health Package Enquiries",
+  "Home Collection",
+  "Direct Assistance",
+  "Health Checkups",
 ];
 
 const faqs = [
   {
     question: "How can I book a diagnostic test?",
     answer:
-      "Use the enquiry form to share your contact details, preferred service, and date. The centre can then follow up with the next steps.",
+      "Select the test you need and submit the enquiry form with your contact details. The centre can then contact you regarding availability.",
   },
   {
     question: "Do you offer home sample collection?",
     answer:
-      "You can request home sample collection from the form or the home collection section. The available time and details can be coordinated after your request.",
+      "Home sample collection can be requested through the enquiry form. Availability can be confirmed by the centre.",
   },
   {
     question: "How can I enquire about health packages?",
     answer:
-      "Choose Health Package in the enquiry form or use the package card buttons to ask about the package that fits your needs.",
+      "Choose Health Package in the enquiry form and share the package you are interested in. The centre can guide you on available options.",
   },
   {
     question: "Can I call directly for test information?",
     answer:
-      "Yes. The contact area is structured for direct call and WhatsApp access once the centre's official details are added.",
+      "You can request a callback through the enquiry form for test information, health packages, or home collection questions.",
   },
   {
     question: "How will I receive confirmation for my enquiry?",
     answer:
-      "The page shows an on-screen acknowledgement only. The centre would confirm through its chosen contact workflow.",
+      "After you share your details, the centre can contact you regarding availability and next steps.",
   },
 ];
 
@@ -217,9 +215,11 @@ export default function Home() {
           </div>
 
           <div className="hidden items-center gap-3 md:flex">
-            <ActionButton variant="quiet" icon={Phone}>
-              Call Now
-            </ActionButton>
+            {contact.phone ? (
+              <ActionButton variant="quiet" icon={Phone}>
+                Call Now
+              </ActionButton>
+            ) : null}
             <ActionButton icon={CalendarCheck}>Book a Test</ActionButton>
           </div>
 
@@ -269,7 +269,7 @@ export default function Home() {
             <h1 className="max-w-3xl text-4xl font-bold leading-[1.05] tracking-normal text-slate-950 sm:text-5xl lg:text-6xl">
               Reliable Diagnostic Testing, Made Simple
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-650">
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
               Explore tests, health packages and home sample collection services
               with quick and convenient enquiry options.
             </p>
@@ -315,10 +315,10 @@ export default function Home() {
                   <CheckCircle2 size={22} />
                 </span>
                 <div>
-                  <p className="font-semibold text-slate-950">Simple patient enquiries</p>
+                  <p className="font-semibold text-slate-950">Diagnostics Made Convenient</p>
                   <p className="mt-1 text-sm leading-6 text-slate-600">
-                    Help patients discover tests, packages, and collection options
-                    from one clear page.
+                    Find common diagnostic tests, explore health checkup options
+                    and request home sample collection with ease.
                   </p>
                 </div>
               </div>
@@ -342,7 +342,7 @@ export default function Home() {
         <SectionHeader
           eyebrow="Tests"
           title="Popular Diagnostic Tests"
-          copy="Clear test discovery helps patients quickly find commonly requested diagnostic services and start an enquiry."
+          copy="Find commonly requested diagnostic tests and send an enquiry for availability."
         />
         <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
           {tests.map((test) => (
@@ -369,7 +369,7 @@ export default function Home() {
         <SectionHeader
           eyebrow="Packages"
           title="Health Checkup Packages"
-          copy="Package cards make preventive health enquiries easier to compare without showing unverified prices or claims."
+          copy="Explore health checkup options designed for different routine screening needs."
         />
         <div className="mx-auto grid max-w-7xl gap-5 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
           {packages.map((item) => {
@@ -395,11 +395,11 @@ export default function Home() {
           <div className="rounded-[28px] bg-teal-800 p-7 text-white shadow-2xl shadow-teal-950/15 sm:p-10">
             <p className="text-sm font-semibold uppercase text-teal-100">Home Collection</p>
             <h2 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">
-              Get Your Samples Collected From Home
+              Home Sample Collection
             </h2>
             <p className="mt-5 text-base leading-8 text-teal-50">
-              Request home sample collection and our team can coordinate the
-              available time and details with you.
+              Prefer to get tested from home? Send us a request and our team can
+              coordinate the collection details with you.
             </p>
             <div className="mt-8">
               <ActionButton variant="secondary" icon={HomeIcon}>
@@ -410,9 +410,9 @@ export default function Home() {
 
           <div className="grid gap-4 md:grid-cols-3">
             {[
-              ["1", "Submit your request", "Share your service need and contact details."],
-              ["2", "Confirm your preferred time", "The team can coordinate availability with you."],
-              ["3", "Sample collection at your location", "A convenient collection request workflow for patients."],
+              ["1", "Choose Your Test", "Tell us which test or health package you need."],
+              ["2", "Select a Convenient Time", "Share your preferred date and time for collection."],
+              ["3", "Sample Collection", "Our team can coordinate the home collection details with you."],
             ].map(([step, title, copy]) => (
               <div key={step} className="step-card">
                 <span className="step-number">{step}</span>
@@ -428,7 +428,7 @@ export default function Home() {
         <SectionHeader
           eyebrow="Convenience"
           title="Designed Around Your Convenience"
-          copy="A focused website can turn test discovery, package enquiries, and contact requests into simple patient actions."
+          copy="From finding the right test to requesting home collection, we aim to keep the process simple and convenient."
         />
         <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-3 lg:px-8">
           {convenience.map(([title, copy, Icon]) => (
@@ -453,9 +453,9 @@ export default function Home() {
           </div>
           <div className="rounded-[24px] border border-teal-900/10 bg-white p-7 shadow-sm sm:p-8">
             <p className="text-lg leading-8 text-slate-700">
-              Delhi NCR Lab & Diagnostic Centre provides diagnostic testing and
-              health checkup services with a focus on convenient access and easy
-              patient enquiries.
+              Delhi NCR Lab & Diagnostic Centre offers diagnostic testing, health
+              checkup options and home sample collection enquiries for patients
+              across Delhi NCR.
             </p>
             <div className="mt-7">
               <ActionButton variant="secondary" icon={Mail}>
@@ -470,10 +470,11 @@ export default function Home() {
         <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:px-8">
           <div>
             <p className="eyebrow text-left">Enquiry</p>
-            <h2 className="section-title text-left">Book a Test or Request a Callback</h2>
+            <h2 className="section-title text-left">Book a Test</h2>
             <p className="mt-5 text-base leading-8 text-slate-600">
-              Share the service you need and your preferred date. This page
-              confirms your request on screen only and does not send details.
+              Share your details and the service you&apos;re looking for, and the
+              centre can get in touch with you regarding availability and next
+              steps.
             </p>
           </div>
 
@@ -483,10 +484,10 @@ export default function Home() {
                 <div className="flex gap-3">
                   <CheckCircle2 className="mt-0.5 shrink-0" size={22} />
                   <div>
-                    <p className="font-bold">Your enquiry details are ready for review.</p>
+                    <p className="font-bold">Thank you for sharing your details.</p>
                     <p className="mt-2 text-sm leading-6">
-                      In the live website, this step can connect to the centre&apos;s
-                      preferred callback or enquiry workflow.
+                      The centre can contact you regarding availability and next
+                      steps.
                     </p>
                   </div>
                 </div>
@@ -506,7 +507,7 @@ export default function Home() {
                 <input name="email" type="email" />
               </label>
               <label className="field">
-                <span>Select Service</span>
+                <span>Service</span>
                 <select name="service" required defaultValue="">
                   <option value="" disabled>
                     Choose a service
@@ -528,7 +529,7 @@ export default function Home() {
             </div>
             <button type="submit" className="button primary mt-6 w-full justify-center sm:w-auto">
               <Mail aria-hidden="true" size={18} />
-              <span>Submit Enquiry</span>
+              <span>Request a Callback</span>
             </button>
           </form>
         </div>
@@ -537,42 +538,11 @@ export default function Home() {
       <section id="contact" className="section">
         <SectionHeader
           eyebrow="Quick Contact"
-          title="Reach the Centre"
-          copy="Prominent contact actions are ready for official phone, WhatsApp, and direction details."
+          title="Need Help Choosing a Test?"
+          copy="Get in touch with the centre for test information, health packages or home collection enquiries."
         />
-        <div className="mx-auto grid max-w-5xl gap-4 px-4 sm:grid-cols-3 sm:px-6 lg:px-8">
-          {[
-            ["Call", Phone, contact.phone || "Use enquiry for callback"],
-            ["WhatsApp", MessageCircle, contact.whatsapp || "Use enquiry for WhatsApp follow-up"],
-            ["Get Directions", MapPin, contact.address || "Location details to be confirmed"],
-          ].map(([label, Icon, value]) => (
-            <button
-              type="button"
-              key={label as string}
-              onClick={scrollToEnquiry}
-              className="contact-action"
-            >
-              <Icon aria-hidden="true" size={24} />
-              <span className="font-bold">{label as string}</span>
-              <span className="text-sm font-medium text-slate-500">{value as string}</span>
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <section className="section bg-white">
-        <SectionHeader eyebrow="Visit" title="Location & Timings" />
-        <div className="mx-auto grid max-w-5xl gap-5 px-4 sm:px-6 md:grid-cols-2 lg:px-8">
-          <div className="info-panel">
-            <MapPin className="text-teal-700" size={27} />
-            <h3>Centre Location</h3>
-            <p>Official address details can be displayed here for easy patient visits and directions.</p>
-          </div>
-          <div className="info-panel">
-            <Clock3 className="text-teal-700" size={27} />
-            <h3>Opening Hours</h3>
-            <p>Current visit hours can be added here so patients know when to call or come in.</p>
-          </div>
+        <div className="mx-auto flex max-w-5xl justify-center px-4 sm:px-6 lg:px-8">
+          <ActionButton icon={MessageCircle}>Request Assistance</ActionButton>
         </div>
       </section>
 
@@ -617,8 +587,8 @@ export default function Home() {
               <p className="font-bold text-slate-950">Delhi NCR Lab & Diagnostic Centre</p>
             </div>
             <p className="mt-4 max-w-md text-sm leading-6 text-slate-600">
-              Diagnostic testing, health checkup enquiries, and home sample
-              collection requests from one simple page.
+              Diagnostic testing, health checkup options, and home sample
+              collection enquiries for patients across Delhi NCR.
             </p>
           </div>
           <div>
@@ -632,11 +602,11 @@ export default function Home() {
             </div>
           </div>
           <div>
-            <h3 className="text-sm font-bold text-slate-950">Contact</h3>
-            <div className="mt-4 grid gap-3 text-sm text-slate-600">
-              <span>Phone: Use the enquiry form for callback requests</span>
-              <span>WhatsApp: Use the enquiry form for message requests</span>
-              <span>Address: Official location details can be added</span>
+            <h3 className="text-sm font-bold text-slate-950">Enquiries</h3>
+            <div className="mt-4">
+              <button type="button" onClick={scrollToEnquiry} className="card-link">
+                Book a Test
+              </button>
             </div>
           </div>
         </div>
