@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   CalendarCheck,
@@ -14,19 +14,10 @@ import {
   Menu,
   MessageCircle,
   Microscope,
-  Phone,
-  ShieldCheck,
-  Stethoscope,
   TestTube2,
   Users,
   X,
 } from "lucide-react";
-
-const contact = {
-  phone: "",
-  whatsapp: "",
-  address: "",
-};
 
 const navItems = [
   ["Home", "#home"],
@@ -44,64 +35,49 @@ const tests = [
   },
   {
     name: "Thyroid Profile",
-    description: "A group of blood tests commonly used to check thyroid hormone levels.",
+    description: "A group of blood tests used to check thyroid hormone levels.",
   },
   {
     name: "Liver Function Test",
-    description: "A blood test panel that checks common liver health indicators.",
+    description: "A blood test that measures different markers related to liver function.",
   },
   {
     name: "Kidney Function Test",
-    description: "A set of tests used to review common kidney function indicators.",
+    description: "A test used to check important markers related to kidney function.",
   },
   {
     name: "Lipid Profile",
-    description: "A blood test that checks cholesterol and other lipid levels.",
+    description: "A blood test that measures cholesterol and other blood fats.",
   },
   {
     name: "Blood Sugar Test",
-    description: "A simple test used to measure blood glucose levels.",
-  },
-  {
-    name: "Vitamin D Test",
-    description: "A blood test used to check vitamin D levels.",
-  },
-  {
-    name: "Vitamin B12 Test",
-    description: "A blood test used to check vitamin B12 levels.",
+    description: "A commonly used test for measuring blood glucose levels.",
   },
 ];
 
 const packages = [
   {
     title: "Basic Health Checkup",
-    copy: "Routine health screening essentials.",
+    copy: "Essential tests for routine health screening.",
     icon: ClipboardList,
   },
   {
     title: "Full Body Checkup",
-    copy: "A broader preventive health screening package.",
+    copy: "A broader selection of tests for preventive health screening.",
     icon: HeartPulse,
   },
   {
     title: "Senior Citizen Health Checkup",
-    copy: "Focused health screening for elderly patients.",
+    copy: "Health screening options designed around common testing needs for older adults.",
     icon: Users,
-  },
-  {
-    title: "Women's Wellness Package",
-    copy: "Common preventive health checks for women.",
-    icon: Stethoscope,
   },
 ];
 
 const convenience = [
-  ["Easy Test Enquiries", "Ask about individual tests and availability in a simple way.", TestTube2],
-  ["Home Sample Collection", "Request sample collection from the comfort of your home.", HomeIcon],
-  ["Multiple Diagnostic Services", "Explore common tests and routine health checkup options.", Microscope],
-  ["Convenient Contact Options", "Share your details and let the centre get in touch.", Phone],
-  ["Mobile-Friendly Access", "Browse services easily from your phone, tablet, or computer.", ShieldCheck],
-  ["Simple Appointment Requests", "Send your preferred date and the service you are looking for.", CalendarCheck],
+  ["Easy Test Enquiries", "Quickly find the test or package you're looking for.", TestTube2],
+  ["Home Sample Collection", "Request sample collection from the convenience of your home.", HomeIcon],
+  ["Health Checkup Options", "Explore routine health screening packages.", HeartPulse],
+  ["Direct Assistance", "Get in touch for test, package or booking information.", MessageCircle],
 ];
 
 const infoStrip = [
@@ -115,7 +91,7 @@ const faqs = [
   {
     question: "How can I book a diagnostic test?",
     answer:
-      "Select the test you need and submit the enquiry form with your contact details. The centre can then contact you regarding availability.",
+      "Choose the test you need and submit the enquiry form with your contact details.",
   },
   {
     question: "Do you offer home sample collection?",
@@ -125,21 +101,19 @@ const faqs = [
   {
     question: "How can I enquire about health packages?",
     answer:
-      "Choose Health Package in the enquiry form and share the package you are interested in. The centre can guide you on available options.",
+      "Choose a health package and submit an enquiry to get more information.",
   },
   {
-    question: "Can I call directly for test information?",
+    question: "Can I request a callback?",
     answer:
-      "You can request a callback through the enquiry form for test information, health packages, or home collection questions.",
-  },
-  {
-    question: "How will I receive confirmation for my enquiry?",
-    answer:
-      "After you share your details, the centre can contact you regarding availability and next steps.",
+      "Yes. Submit the enquiry form with your phone number and preferred service.",
   },
 ];
 
-function scrollToEnquiry() {
+function scrollToEnquiry(service?: string) {
+  if (service) {
+    window.dispatchEvent(new CustomEvent("select-service", { detail: service }));
+  }
   document.querySelector("#enquiry")?.scrollIntoView({ behavior: "smooth" });
 }
 
@@ -175,7 +149,7 @@ function ActionButton({
   return (
     <button
       type="button"
-      onClick={onClick ?? scrollToEnquiry}
+      onClick={onClick ?? (() => scrollToEnquiry())}
       className={`button ${variant}`}
     >
       {Icon ? <Icon aria-hidden="true" size={18} /> : null}
@@ -187,6 +161,18 @@ function ActionButton({
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [selectedService, setSelectedService] = useState("");
+
+  useEffect(() => {
+    function handleSelectService(event: Event) {
+      const customEvent = event as CustomEvent<string>;
+      setSelectedService(customEvent.detail);
+      setSubmitted(false);
+    }
+
+    window.addEventListener("select-service", handleSelectService);
+    return () => window.removeEventListener("select-service", handleSelectService);
+  }, []);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -215,11 +201,6 @@ export default function Home() {
           </div>
 
           <div className="hidden items-center gap-3 md:flex">
-            {contact.phone ? (
-              <ActionButton variant="quiet" icon={Phone}>
-                Call Now
-              </ActionButton>
-            ) : null}
             <ActionButton icon={CalendarCheck}>Book a Test</ActionButton>
           </div>
 
@@ -281,9 +262,9 @@ export default function Home() {
             </div>
             <div className="mt-9 grid gap-3 sm:grid-cols-3">
               {[
-                ["Convenient Booking", CalendarCheck],
+                ["Easy Booking", CalendarCheck],
                 ["Home Sample Collection", HomeIcon],
-                ["Quick Enquiry Support", MessageCircle],
+                ["Quick Assistance", MessageCircle],
               ].map(([label, Icon]) => (
                 <div key={label as string} className="trust-pill">
                   <Icon aria-hidden="true" size={18} />
@@ -315,10 +296,10 @@ export default function Home() {
                   <CheckCircle2 size={22} />
                 </span>
                 <div>
-                  <p className="font-semibold text-slate-950">Diagnostics Made Convenient</p>
+                  <p className="font-semibold text-slate-950">Easy & Convenient Testing</p>
                   <p className="mt-1 text-sm leading-6 text-slate-600">
-                    Find common diagnostic tests, explore health checkup options
-                    and request home sample collection with ease.
+                    Explore diagnostic tests, health checkups and home sample
+                    collection options with ease.
                   </p>
                 </div>
               </div>
@@ -342,9 +323,9 @@ export default function Home() {
         <SectionHeader
           eyebrow="Tests"
           title="Popular Diagnostic Tests"
-          copy="Find commonly requested diagnostic tests and send an enquiry for availability."
+          copy="Explore commonly requested diagnostic tests and get in touch for more information."
         />
-        <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-3 lg:px-8">
           {tests.map((test) => (
             <article key={test.name} className="service-card">
               <div className="mb-5 grid h-11 w-11 place-items-center rounded-xl bg-cyan-50 text-cyan-700">
@@ -352,8 +333,12 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-bold text-slate-950">{test.name}</h3>
               <p className="mt-3 min-h-20 text-sm leading-6 text-slate-600">{test.description}</p>
-              <button type="button" onClick={scrollToEnquiry} className="card-link">
-                Enquire Now
+              <button
+                type="button"
+                onClick={() => scrollToEnquiry(test.name)}
+                className="card-link"
+              >
+                Enquire
               </button>
             </article>
           ))}
@@ -369,9 +354,9 @@ export default function Home() {
         <SectionHeader
           eyebrow="Packages"
           title="Health Checkup Packages"
-          copy="Explore health checkup options designed for different routine screening needs."
+          copy="Explore health checkup options for different routine screening needs."
         />
-        <div className="mx-auto grid max-w-7xl gap-5 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
+        <div className="mx-auto grid max-w-6xl gap-5 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-3 lg:px-8">
           {packages.map((item) => {
             const Icon = item.icon;
             return (
@@ -381,7 +366,11 @@ export default function Home() {
                 </div>
                 <h3 className="mt-6 text-xl font-bold text-slate-950">{item.title}</h3>
                 <p className="mt-3 min-h-14 text-sm leading-6 text-slate-600">{item.copy}</p>
-                <button type="button" onClick={scrollToEnquiry} className="card-link">
+                <button
+                  type="button"
+                  onClick={() => scrollToEnquiry(item.title)}
+                  className="card-link"
+                >
                   Enquire About Package
                 </button>
               </article>
@@ -411,8 +400,8 @@ export default function Home() {
           <div className="grid gap-4 md:grid-cols-3">
             {[
               ["1", "Choose Your Test", "Tell us which test or health package you need."],
-              ["2", "Select a Convenient Time", "Share your preferred date and time for collection."],
-              ["3", "Sample Collection", "Our team can coordinate the home collection details with you."],
+              ["2", "Select a Convenient Time", "Share your preferred date and time."],
+              ["3", "Sample Collection", "Our team can coordinate the collection details with you."],
             ].map(([step, title, copy]) => (
               <div key={step} className="step-card">
                 <span className="step-number">{step}</span>
@@ -472,9 +461,8 @@ export default function Home() {
             <p className="eyebrow text-left">Enquiry</p>
             <h2 className="section-title text-left">Book a Test</h2>
             <p className="mt-5 text-base leading-8 text-slate-600">
-              Share your details and the service you&apos;re looking for, and the
-              centre can get in touch with you regarding availability and next
-              steps.
+              Share your details and the test or service you&apos;re looking for,
+              and the centre can contact you regarding availability and next steps.
             </p>
           </div>
 
@@ -484,11 +472,7 @@ export default function Home() {
                 <div className="flex gap-3">
                   <CheckCircle2 className="mt-0.5 shrink-0" size={22} />
                   <div>
-                    <p className="font-bold">Thank you for sharing your details.</p>
-                    <p className="mt-2 text-sm leading-6">
-                      The centre can contact you regarding availability and next
-                      steps.
-                    </p>
+                    <p className="font-bold">Thank you. Your request has been noted.</p>
                   </div>
                 </div>
               </div>
@@ -503,15 +487,26 @@ export default function Home() {
                 <input name="phone" type="tel" required />
               </label>
               <label className="field">
-                <span>Email</span>
+                <span>Email (Optional)</span>
                 <input name="email" type="email" />
               </label>
               <label className="field">
-                <span>Service</span>
-                <select name="service" required defaultValue="">
+                <span>Test / Service</span>
+                <select
+                  name="service"
+                  required
+                  value={selectedService}
+                  onChange={(event) => setSelectedService(event.target.value)}
+                >
                   <option value="" disabled>
-                    Choose a service
+                    Choose a test or service
                   </option>
+                  {tests.map((test) => (
+                    <option key={test.name}>{test.name}</option>
+                  ))}
+                  {packages.map((item) => (
+                    <option key={item.title}>{item.title}</option>
+                  ))}
                   <option>Diagnostic Test</option>
                   <option>Health Package</option>
                   <option>Home Sample Collection</option>
@@ -587,8 +582,8 @@ export default function Home() {
               <p className="font-bold text-slate-950">Delhi NCR Lab & Diagnostic Centre</p>
             </div>
             <p className="mt-4 max-w-md text-sm leading-6 text-slate-600">
-              Diagnostic testing, health checkup options, and home sample
-              collection enquiries for patients across Delhi NCR.
+              Diagnostic tests, health checkups and convenient home sample
+              collection enquiries.
             </p>
           </div>
           <div>
@@ -604,7 +599,7 @@ export default function Home() {
           <div>
             <h3 className="text-sm font-bold text-slate-950">Enquiries</h3>
             <div className="mt-4">
-              <button type="button" onClick={scrollToEnquiry} className="card-link">
+              <button type="button" onClick={() => scrollToEnquiry()} className="card-link">
                 Book a Test
               </button>
             </div>
