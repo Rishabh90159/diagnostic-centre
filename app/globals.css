@@ -122,6 +122,16 @@ textarea {
   transform: translateY(-1px);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
 .button.primary {
   background: #0f766e;
   color: #ffffff;
@@ -179,7 +189,7 @@ textarea {
 .service-card,
 .package-card,
 .step-card {
-  border-radius: 8px;
+  border-radius: 16px;
   min-height: 100%;
   padding: 1.35rem;
   transition:
@@ -194,6 +204,11 @@ textarea {
   border-color: rgba(15, 118, 110, 0.35);
   box-shadow: 0 22px 40px rgba(15, 23, 42, 0.09);
   transform: translateY(-2px);
+}
+
+.featured-package {
+  border-color: rgba(15, 118, 110, 0.36);
+  box-shadow: 0 24px 48px rgba(15, 118, 110, 0.12);
 }
 
 .card-link {
@@ -226,10 +241,55 @@ textarea {
 
 .feature-card {
   align-items: flex-start;
-  border-radius: 8px;
+  border-radius: 16px;
   display: flex;
   gap: 1rem;
   padding: 1.35rem;
+}
+
+.search-panel {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  border-radius: 18px;
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.07);
+  display: flex;
+  gap: 0.85rem;
+  min-height: 4.4rem;
+  padding: 0 1.15rem;
+}
+
+.search-panel input {
+  color: #0f172a;
+  flex: 1;
+  font: inherit;
+  font-size: 1rem;
+  min-width: 0;
+}
+
+.search-panel input::placeholder {
+  color: #64748b;
+}
+
+.quick-chip {
+  background: #ffffff;
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  border-radius: 999px;
+  color: #155e75;
+  font-size: 0.86rem;
+  font-weight: 800;
+  min-height: 2.3rem;
+  padding: 0.45rem 0.8rem;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.quick-chip:hover {
+  background: #ecfeff;
+  border-color: rgba(15, 118, 110, 0.35);
+  transform: translateY(-1px);
 }
 
 .form-panel {
@@ -284,7 +344,7 @@ textarea {
   align-items: center;
   background: #ffffff;
   border: 1px solid rgba(15, 118, 110, 0.14);
-  border-radius: 8px;
+  border-radius: 16px;
   color: #0f766e;
   display: grid;
   gap: 0.65rem;
@@ -305,7 +365,7 @@ textarea {
 }
 
 .info-panel {
-  border-radius: 8px;
+  border-radius: 16px;
   min-height: 14rem;
   padding: 1.6rem;
 }
@@ -323,8 +383,92 @@ textarea {
   margin-top: 0.75rem;
 }
 
+.mini-benefit {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(15, 118, 110, 0.12);
+  border-radius: 14px;
+  color: #334155;
+  display: flex;
+  font-size: 0.9rem;
+  font-weight: 700;
+  gap: 0.55rem;
+  min-height: 3rem;
+  padding: 0.75rem 0.9rem;
+}
+
+.mini-benefit svg {
+  color: #0f766e;
+  flex: 0 0 auto;
+}
+
+.process-step,
+.timeline-card {
+  background: #ffffff;
+  border: 1px solid rgba(15, 118, 110, 0.12);
+  border-radius: 16px;
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.05);
+}
+
+.process-step {
+  padding: 1rem;
+}
+
+.process-step span {
+  align-items: center;
+  background: #0f766e;
+  border-radius: 12px;
+  color: #ffffff;
+  display: inline-flex;
+  font-size: 0.82rem;
+  font-weight: 900;
+  height: 2rem;
+  justify-content: center;
+  width: 2rem;
+}
+
+.process-step p {
+  color: #334155;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.35;
+  margin-top: 0.8rem;
+}
+
+.timeline-card {
+  min-height: 9rem;
+  padding: 1.4rem;
+  position: relative;
+}
+
+.timeline-card:not(:last-child)::after {
+  background: linear-gradient(90deg, rgba(15, 118, 110, 0.4), transparent);
+  content: "";
+  display: none;
+  height: 2px;
+  left: calc(100% - 0.25rem);
+  position: absolute;
+  top: 2.3rem;
+  width: 1.4rem;
+}
+
+.timeline-card span {
+  color: #0f766e;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.timeline-card h3 {
+  color: #0f172a;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.35;
+  margin-top: 1.3rem;
+}
+
 .faq-item {
-  border-radius: 8px;
+  border-radius: 16px;
   overflow: hidden;
 }
 
@@ -371,5 +515,11 @@ textarea {
   .form-panel {
     border-radius: 18px;
     padding: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .timeline-card:not(:last-child)::after {
+    display: block;
   }
 }

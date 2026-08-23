@@ -2,14 +2,15 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://diagnostic-centre1.vercel.app'),
   title: 'Delhi NCR Lab & Diagnostic Centre | Diagnostic Tests & Health Checkups',
   description:
-    'Explore diagnostic tests, health checkup packages and home sample collection options with Delhi NCR Lab & Diagnostic Centre.',
+    'Explore diagnostic tests, health checkup packages and home sample collection services at Delhi NCR Lab & Diagnostic Centre.',
   openGraph: {
     title:
       'Delhi NCR Lab & Diagnostic Centre | Diagnostic Tests & Health Checkups',
     description:
-      'Explore diagnostic tests, health checkup packages and home sample collection options with Delhi NCR Lab & Diagnostic Centre.',
+      'Explore diagnostic tests, health checkup packages and home sample collection services at Delhi NCR Lab & Diagnostic Centre.',
     images: ['/lab-hero.png'],
   },
 };
