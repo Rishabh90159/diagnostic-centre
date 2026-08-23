@@ -302,6 +302,7 @@ export default function Home() {
                 width={1536}
                 height={1024}
                 priority
+                loading="eager"
                 className="aspect-[4/3] w-full object-cover"
               />
             </div>
